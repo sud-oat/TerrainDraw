@@ -22,11 +22,13 @@ def LineConversion(line):
 
     for i in range(line_length):
         arr[i][int(line[i])] = 1
-    # for row in arr:
-    #     print(row)
+    return arr
+def slicer(arr, xpos, slice_size):
+    return arr[:]
+
 
 curr = time.time()
 line = LineGen(1000)
-LineConversion(line)
+terrain = LineConversion(line)
 print(time.time() - curr)
-
+slicer(terrain, 10)
