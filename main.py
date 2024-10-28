@@ -42,24 +42,23 @@ def terrain_draw(terrain, left_x, left_y):
         left_x += 100
 
 
-def on_press(key, terrain, terrain_pos):
+def on_press(key, terrain, current_terrain_position):
     if key in (keyboard.Key.left, keyboard.Key.right):
         if key == keyboard.Key.left:
-            terrain_pos = max(0, terrain_pos - 1)
+            current_terrain_position = max(0, current_terrain_position - 1)
         elif key == keyboard.Key.right:
-            terrain_pos = min(len(terrain), terrain_pos + 1)
+            current_terrain_position = min(len(terrain), current_terrain_position + 1)
 
-        temp = slice_terrain(terrain, terrain_pos)
+        temp = slice_terrain(terrain, current_terrain_position)
 
-        # Ignore for now
         simulate_key_press([keyboard.Key.ctrl, "a"])
-        time.sleep(0.1)
+        time.sleep(0.01)
         simulate_key_press([keyboard.Key.delete])
         simulate_key_press("p")
 
         terrain_draw(temp, left_x, left_y)
 
-    return terrain_pos
+    return current_terrain_position
 
 
 def on_release(key):
@@ -79,21 +78,23 @@ def main():
     curr = time.time()
     line = LineGen(100)
     terrain = ArrayConvert(line)
-    terrain_pos = 10
+    current_terrain_position = 10
 
     print(
-        "Place your cursor on the bottom left side of the paint application. The program will start in 3 seconds."
+        "Place your cursor on the top left side of the paint application. The program will start in 3 seconds."
     )
     time.sleep(3)
 
     global left_x, left_y
     left_x, left_y = pyautogui.position()
 
-    terrain_draw(slice_terrain(terrain, terrain_pos), left_x, left_y)
+    pyautogui.PAUSE = 0
+
+    terrain_draw(slice_terrain(terrain, current_terrain_position), left_x, left_y)
 
     def listener_on_press(key):
-        nonlocal terrain_pos
-        terrain_pos = on_press(key, terrain, terrain_pos)
+        nonlocal current_terrain_position
+        current_terrain_position = on_press(key, terrain, current_terrain_position)
 
     with keyboard.Listener(
         on_press=listener_on_press, on_release=on_release
