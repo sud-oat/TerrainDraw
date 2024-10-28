@@ -26,7 +26,7 @@ def LineConversion(line):
     #     print(row)
 
 curr = time.time()
-line = LineGen(10000000)
+line = LineGen(1000)
 LineConversion(line)
 print(time.time() - curr)
 
