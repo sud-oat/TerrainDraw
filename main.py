@@ -16,6 +16,17 @@ def LineGen(line_length):
         line += str(height)
     return line
 
+def LineConversion(line):
+    line_length = len(line)
+    arr = [[0 for i in range(10)] for j in range(line_length)]
+
+    for i in range(line_length):
+        arr[i][int(line[i])] = 1
+    # for row in arr:
+    #     print(row)
+
 curr = time.time()
-print(LineGen(1000))
+line = LineGen(10000000)
+LineConversion(line)
 print(time.time() - curr)
+
