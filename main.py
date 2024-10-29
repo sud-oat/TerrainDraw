@@ -46,25 +46,24 @@ def on_press(key, terrain, current_terrain_position):
     if key in (keyboard.Key.left, keyboard.Key.right):
         if key == keyboard.Key.left:
             if current_terrain_position > 10:
-                current_terrain_position = max(0, current_terrain_position - 1)
+                current_terrain_position -= 1
                 redraw_screen(terrain, current_terrain_position)
         elif key == keyboard.Key.right:
             if current_terrain_position < len(terrain):
-                current_terrain_position = min(len(terrain), current_terrain_position + 1)
+                current_terrain_position += 1
                 redraw_screen(terrain, current_terrain_position)
 
     return current_terrain_position
+
 
 def redraw_screen(terrain, current_terrain_position):
     temp = slice_terrain(terrain, current_terrain_position)
 
     simulate_key_press([keyboard.Key.ctrl, "a"])
-    time.sleep(0.01)
     simulate_key_press([keyboard.Key.delete])
     simulate_key_press("p")
 
     terrain_draw(temp, left_x, left_y)
-    
 
 
 def on_release(key):
