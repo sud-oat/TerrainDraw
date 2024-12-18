@@ -34,17 +34,24 @@ def Slicer(arr, xpos, slice_size):
 
 
 def Draw(terrain, xpos, leftx, lefty):
-    terrain_slice = Slicer(terrain, xpos, 10)
+    terrain_slice = Slicer(terrain, xpos, SliceSizeInput)
     for node in terrain_slice:
         height = node.index(1)
         print(height)
 
+#USER CONFIG
+LineLength = 1000
+SliceSizeInput = 100
+slicestart = 10
+#USER CONFIG
+
 
 curr = time.time() #starts a timer
-line = LineGen(1000) #Calls LineGen()
+line = LineGen(LineLength) #Calls LineGen()
 terrain = LineConversion(line)
-time.sleep(3.7669420)
-leftx, lefty = pyautogui.position()
+print("Move yo dam cursor to where u want dat code to top left")
+#time.sleep(3.7669420)
+startx, starty = pyautogui.position()
 print(time.time() - curr)
-print(Draw(terrain, 10, startx, starty))
+Draw(terrain, slicestart, startx, starty)
 
