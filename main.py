@@ -29,7 +29,7 @@ def ArrayConvert(line):
 
 
 def slice_terrain(terrain, pos):
-    return terrain[max(0, pos - 10) : pos]
+    return terrain[max(0, pos - 10) : pos + 1]
 
 
 def terrain_draw(terrain, left_x, left_y):
@@ -41,17 +41,22 @@ def terrain_draw(terrain, left_x, left_y):
         pyautogui.mouseUp()
         left_x += 100
 
-
+def modify_terrain(terrain, current_terrain_position, direction):
+    edge_height = terrain[current_terrain_position].index(1)
+    if edge_height + direction in range(0, 10):
+        terrain[current_terrain_position][edge_height] = 0
+        terrain[current_terrain_position][edge_height + direction] = 1
+        return True
+   
 def on_press(key, terrain, current_terrain_position):
-    if key in (keyboard.Key.left, keyboard.Key.right):
-        if key == keyboard.Key.left:
-            if current_terrain_position > 10:
-                current_terrain_position -= 1
+    if key in (keyboard.Key.left, keyboard.Key.right, keyboard.Key.up, keyboard.Key.down):
+        if key == keyboard.Key.left or key == keyboard.Key.right:
+            if current_terrain_position > 10 and current_terrain_position < len(terrain):
+                redraw_screen(terrain, current_terrain_position + 1 if keyboard.Key.right else current_terrain_position-1)
+        else:
+            if modify_terrain(terrain, current_terrain_position, 1 if key == keyboard.Key.up else -1):
                 redraw_screen(terrain, current_terrain_position)
-        elif key == keyboard.Key.right:
-            if current_terrain_position < len(terrain):
-                current_terrain_position += 1
-                redraw_screen(terrain, current_terrain_position)
+
 
     return current_terrain_position
 
